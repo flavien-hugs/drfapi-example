@@ -2,6 +2,7 @@
 
 from rest_framework.serializers import(
     ModelSerializer,
+    ValidationError,
     SerializerMethodField
 )
 from shop.models import Category, Product, Article
@@ -14,18 +15,19 @@ class CategoryListSerializer(ModelSerializer):
         fields = [
             'id',
             'name',
+            'description',
             'date_created',
             'date_updated',
         ]
 
     def validate_name(self, value):
         if Category.objects.filter(name=value).exists():
-            raise serializers.ValidationError('Category already exists !')
+            raise ValidationError('Category already exists !')
         return value
 
     def validate(self, data):
-        if data['data'] not in data['description']:
-            raise serializers.ValidationError('Name must be in description')
+        if data['name'] not in data['description']:
+            raise ValidationError('Name must be in description')
         return data
 
 
@@ -46,28 +48,6 @@ class CategoryDetailSerializer(ModelSerializer):
         queryset = instance.products.filter(active=True)
         serializer = ProductListSerializer(queryset, many=True)
         return serializer.data
-
-
-class CategoryListSerializer(ModelSerializer):
-
-    class Meta:
-        model = Category
-        fields = [
-            'id',
-            'name',
-            'date_created',
-            'date_updated',
-        ]
-
-    def validate_name(self, value):
-        if Category.objects.filter(name=value).exists():
-            raise serializers.ValidationError('Category already exists !')
-        return value
-
-    def validate(self, data):
-        if data['data'] not in data['description']:
-            raise serializers.ValidationError('Name must be in description')
-        return data
 
 
 class ProductListSerializer(ModelSerializer):
@@ -116,12 +96,12 @@ class ArticleSerializer(ModelSerializer):
 
     def validate_price(self, value):
         if value < 1:
-            raise serializers.ValidationError(
+            raise ValidationError(
                 'Price must be greater than 1'
             )
         return value
 
     def validate_product(self, value):
         if value.active is False:
-            raise serializers.ValidationError('Inactive product')
+            raise ValidationError('Inactive product')
         return value
