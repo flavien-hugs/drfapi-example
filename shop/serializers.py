@@ -7,7 +7,18 @@ from rest_framework.serializers import(
 from shop.models import Category, Product, Article
 
 
-class CategorySerializer(ModelSerializer):
+class CategoryListSerializer(ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = [
+            'id',
+            'name',
+            'date_created',
+            'date_updated',
+        ]
+
+class CategoryDetailSerializer(ModelSerializer):
 
     products = SerializerMethodField()
     class Meta:
