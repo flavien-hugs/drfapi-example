@@ -18,6 +18,12 @@ class CategoryListSerializer(ModelSerializer):
             'date_updated',
         ]
 
+    def validate_name(self, value):
+        if Category.objects.filter(name=value).exists():
+            raise serializers.ValidationError('Category already exists')
+        return value
+
+
 class CategoryDetailSerializer(ModelSerializer):
 
     products = SerializerMethodField()
