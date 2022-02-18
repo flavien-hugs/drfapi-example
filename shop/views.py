@@ -4,7 +4,8 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from shop.models import Category, Product, Article
 from shop.serializers import(
     CategoryListSerializer, CategoryDetailSerializer,
-    ProductSerializer, ArticleSerializer,
+    ProductListSerializer, ProductDetailSerializer,
+    ArticleSerializer,
 )
 
 
@@ -28,7 +29,8 @@ category_view = CategoryView
 
 class ProductView(ReadOnlyModelViewSet):
 
-    serializer_class = ProductSerializer
+    serializer_class = ProductListSerializer
+    detail_serializer_class = ProductDetailSerializer
 
     def get_queryset(self):
         queryset = Product.objects.filter(active=True)
@@ -36,6 +38,11 @@ class ProductView(ReadOnlyModelViewSet):
         if category_id is not None:
             queryset = queryset.filter(category_id=category_id)
         return queryset
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return self.detail_serializer_class
+        return super().get_serializer_class()
 
 
 product_view = ProductView
