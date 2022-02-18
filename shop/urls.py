@@ -12,6 +12,11 @@ router.register(
     views.admin_category_view,
     basename='admin-category'
 )
+router.register(
+    r'admin/article',
+    views.admin_article_view,
+    basename='admin-article'
+)
 
 router.register(
     r'category',
