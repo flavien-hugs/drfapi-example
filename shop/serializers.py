@@ -9,7 +9,7 @@ from shop.models import Category, Product, Article
 
 class CategorySerializer(ModelSerializer):
 
-    products = SerializerMethodField
+    products = SerializerMethodField()
     class Meta:
         model = Category
         fields = [
@@ -27,17 +27,23 @@ class CategorySerializer(ModelSerializer):
 
 class ProductSerializer(ModelSerializer):
 
+    articles = SerializerMethodField()
     class Meta:
         model = Product
         fields = [
             'id',
             'category',
             'name',
+            'articles',
             'description',
             'date_created',
             'date_updated',
         ]
 
+    def get_articles(self, instance):
+        queryset = instance.articles.filter(active=True)
+        serializer = ArticleSerializer(queryset, many=True)
+        return serializer.data
 
 class ArticleSerializer(ModelSerializer):
 
