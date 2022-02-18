@@ -1,7 +1,8 @@
 # shop.views.py
 
-from rest_framework.viewsets import ReadOnlyModelViewSet
-
+from rest_framework.viewsets import(
+    ModelViewSet, ReadOnlyModelViewSet
+)
 from shop.mixins import MultipleSerializerMixin
 from shop.models import Category, Product, Article
 from shop.serializers import(
@@ -9,6 +10,19 @@ from shop.serializers import(
     ProductListSerializer, ProductDetailSerializer,
     ArticleSerializer,
 )
+
+
+class AdminCategoryViewSet(MultipleSerializerMixin, ModelViewSet):
+
+    serializer_class = CategoryListSerializer
+    detail_serializer_class = CategoryDetailSerializer
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+        return queryset
+
+
+admin_category_view = AdminCategoryViewSet
 
 
 class CategoryViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):

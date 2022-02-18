@@ -3,11 +3,30 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from shop.views import category_view, product_view, article_view
+from shop import views
 
 router = routers.SimpleRouter()
-router.register(r'category', category_view, basename='category')
-router.register(r'product', product_view, basename='product')
-router.register(r'article', article_view, basename='article')
+
+router.register(
+    r'admin/category',
+    views.admin_category_view,
+    basename='admin-category'
+)
+
+router.register(
+    r'category',
+    views.category_view,
+    basename='category'
+)
+router.register(
+    r'product',
+    views.product_view,
+    basename='product'
+)
+router.register(
+    r'article',
+    views.article_view,
+    basename='article'
+)
 
 urlpatterns = router.urls
