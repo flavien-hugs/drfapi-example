@@ -1,6 +1,8 @@
 # shop.views.py
 
 from rest_framework.viewsets import ReadOnlyModelViewSet
+
+from shop.mixins import MultipleSerializerMixin
 from shop.models import Category, Product, Article
 from shop.serializers import(
     CategoryListSerializer, CategoryDetailSerializer,
@@ -9,7 +11,7 @@ from shop.serializers import(
 )
 
 
-class CategoryView(ReadOnlyModelViewSet):
+class CategoryViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
 
     serializer_class = CategoryListSerializer
     detail_serializer_class = CategoryDetailSerializer
@@ -18,16 +20,11 @@ class CategoryView(ReadOnlyModelViewSet):
         queryset = Category.objects.filter(active=True)
         return queryset
 
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return self.detail_serializer_class
-        return super().get_serializer_class()
+
+category_view = CategoryViewSet
 
 
-category_view = CategoryView
-
-
-class ProductView(ReadOnlyModelViewSet):
+class ProductViewSet(MultipleSerializerMixin, ReadOnlyModelViewSet):
 
     serializer_class = ProductListSerializer
     detail_serializer_class = ProductDetailSerializer
@@ -39,16 +36,11 @@ class ProductView(ReadOnlyModelViewSet):
             queryset = queryset.filter(category_id=category_id)
         return queryset
 
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return self.detail_serializer_class
-        return super().get_serializer_class()
+
+product_view = ProductViewSet
 
 
-product_view = ProductView
-
-
-class ArticleView(ReadOnlyModelViewSet):
+class ArticleViewSet(ReadOnlyModelViewSet):
 
     serializer_class = ArticleSerializer
 
@@ -60,4 +52,4 @@ class ArticleView(ReadOnlyModelViewSet):
         return queryset
 
 
-article_view = ArticleView
+article_view = ArticleViewSet

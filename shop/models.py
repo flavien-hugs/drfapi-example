@@ -1,6 +1,6 @@
 # shop.models
 
-from django.db import models
+from django.db import models, transaction
 
 
 class ModelMixin(models.Model):
@@ -21,6 +21,13 @@ class Category(ModelMixin):
     def __str__(self):
         return self.name
 
+    @transaction.atomic
+    def disable(self):
+        if self.active is False:
+            return
+        self.active = False
+        self.save()
+        self.products.update(active=False)
 
 class Product(ModelMixin):
 
@@ -32,6 +39,13 @@ class Product(ModelMixin):
     def __str__(self):
         return self.name
 
+    @transaction.atomic
+    def disable(self):
+        if self.active is False:
+            return
+        self.active = False
+        self.save()
+        self.articles.update(active=False)
 
 class Article(ModelMixin):
 
