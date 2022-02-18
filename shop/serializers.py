@@ -36,7 +36,20 @@ class CategoryDetailSerializer(ModelSerializer):
         serializer = ProductSerializer(queryset, many=True)
         return serializer.data
 
-class ProductSerializer(ModelSerializer):
+
+class ProductListSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            'id',
+            'category',
+            'name',
+            'description',
+            'date_created',
+            'date_updated',
+        ]
+
+class ProductDetailSerializer(ModelSerializer):
 
     articles = SerializerMethodField()
     class Meta:
