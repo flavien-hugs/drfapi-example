@@ -11,7 +11,6 @@ ce qu'on appelle des __`endpoints`__.
 Chaque *`endpoint`* permet d’exécuter différentes actions dans le système d’information,
 sans avoir à en comprendre le fonctionnement.
 
-
 # Qu'est-ce qu'un _endpoint_ ?
 
 Un endpoint est une *URL sur laquelle on réalise différents appels*.
