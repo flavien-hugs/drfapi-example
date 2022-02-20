@@ -1,8 +1,12 @@
+## django-rest-framework api example
+
+Exeple de mise en place d'une API pour une boutique de vente électronique.
+
 # Qu'est-ce qu'une _API_ ?
 
 API signifie *`Application Programming Interface` ou `Interface de Programmation Applicative`*.
-C'est une sorte d'Interface qui permet d'interagir avec un système d'information au travers de ce qu'on
-appelle des __`endpoints`__.
+C'est une sorte d'Interface qui permet d'interagir avec un système d'information au travers de
+ce qu'on appelle des __`endpoints`__.
 
 Chaque *`endpoint`* permet d’exécuter différentes actions dans le système d’information,
 sans avoir à en comprendre le fonctionnement.
